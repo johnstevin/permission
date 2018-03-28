@@ -1,11 +1,11 @@
-<?php namespace Zizaco\Entrust;
+<?php namespace LWJ\Permission;
 
 /**
  * This file is part of Entrust,
  * a role & permission management solution for Laravel.
  *
  * @license MIT
- * @package Zizaco\Entrust
+ * @package LWJ\Permission
  */
 
 use Illuminate\Support\ServiceProvider;
@@ -100,7 +100,7 @@ class EntrustServiceProvider extends ServiceProvider
             return new Entrust($app);
         });
 
-        $this->app->alias('entrust', 'Zizaco\Entrust\Entrust');
+        $this->app->alias('entrust', 'LWJ\Permission\Entrust');
     }
 
     /**

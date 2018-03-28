@@ -1,11 +1,11 @@
-<?php namespace Zizaco\Entrust;
+<?php namespace LWJ\Permission;
 
 /**
- * This file is part of Entrust,
+ * This file is part of permission,
  * a role & permission management solution for Laravel.
  *
  * @license MIT
- * @package Zizaco\Entrust
+ * @package LWJ\Permission
  */
 
 use Illuminate\Console\Command;
@@ -18,14 +18,14 @@ class MigrationCommand extends Command
      *
      * @var string
      */
-    protected $name = 'entrust:migration';
+    protected $name = 'permission:migration';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Creates a migration following the Entrust specifications.';
+    protected $description = 'Creates a migration following the permission specifications.';
    
     /**
      * Execute the console command.
@@ -44,12 +44,12 @@ class MigrationCommand extends Command
      */
     public function handle()
     {
-        $this->laravel->view->addNamespace('entrust', substr(__DIR__, 0, -8).'views');
+        $this->laravel->view->addNamespace('permission', substr(__DIR__, 0, -8).'views');
 
-        $rolesTable          = Config::get('entrust.roles_table');
-        $roleUserTable       = Config::get('entrust.role_user_table');
-        $permissionsTable    = Config::get('entrust.permissions_table');
-        $permissionRoleTable = Config::get('entrust.permission_role_table');
+        $rolesTable          = Config::get('permission.roles_table');
+        $roleUserTable       = Config::get('permission.role_user_table');
+        $permissionsTable    = Config::get('permission.permissions_table');
+        $permissionRoleTable = Config::get('permission.permission_role_table');
 
         $this->line('');
         $this->info( "Tables: $rolesTable, $roleUserTable, $permissionsTable, $permissionRoleTable" );
@@ -89,7 +89,7 @@ class MigrationCommand extends Command
      */
     protected function createMigration($rolesTable, $roleUserTable, $permissionsTable, $permissionRoleTable)
     {
-        $migrationFile = base_path("/database/migrations")."/".date('Y_m_d_His')."_entrust_setup_tables.php";
+        $migrationFile = base_path("/database/migrations")."/".date('Y_m_d_His')."_permission_setup_tables.php";
 
         $userModelName = Config::get('auth.providers.users.model');
         $userModel = new $userModelName();
@@ -98,7 +98,7 @@ class MigrationCommand extends Command
 
         $data = compact('rolesTable', 'roleUserTable', 'permissionsTable', 'permissionRoleTable', 'usersTable', 'userKeyName');
 
-        $output = $this->laravel->view->make('entrust::generators.migration')->with($data)->render();
+        $output = $this->laravel->view->make('permission::generators.migration')->with($data)->render();
 
         if (!file_exists($migrationFile) && $fs = fopen($migrationFile, 'x')) {
             fwrite($fs, $output);

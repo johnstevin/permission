@@ -1,15 +1,15 @@
-<?php namespace Zizaco\Entrust;
+<?php namespace LWJ\Permission;
 
 /**
  * This file is part of Entrust,
  * a role & permission management solution for Laravel.
  *
  * @license MIT
- * @package Zizaco\Entrust
+ * @package LWJ\Permission
  */
 
-use Zizaco\Entrust\Contracts\EntrustPermissionInterface;
-use Zizaco\Entrust\Traits\EntrustPermissionTrait;
+use LWJ\Permission\Contracts\EntrustPermissionInterface;
+use LWJ\Permission\Traits\EntrustPermissionTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Config;
 

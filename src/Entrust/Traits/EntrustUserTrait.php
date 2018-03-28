@@ -1,11 +1,11 @@
-<?php namespace Zizaco\Entrust\Traits;
+<?php namespace LWJ\Permission\Traits;
 
 /**
  * This file is part of Entrust,
  * a role & permission management solution for Laravel.
  *
  * @license MIT
- * @package Zizaco\Entrust
+ * @package LWJ\Permission
  */
 
 use Illuminate\Cache\TaggableStore;
