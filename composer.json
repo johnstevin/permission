@@ -44,10 +44,10 @@
     "extra":{
         "laravel":{
             "providers":[
-                "Zizaco\\Entrust\\EntrustServiceProvider"
+                "LWJ\\Permission\\EntrustServiceProvider"
             ],
             "aliases":{
-                "Entrust": "Zizaco\\Entrust\\EntrustFacade"
+                "Entrust": "LWJ\\Permission\\EntrustFacade"
             }
         }
     },
