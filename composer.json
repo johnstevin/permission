@@ -38,7 +38,7 @@
             "src/commands"
         ],
         "psr-4": {
-            "Zizaco\\Entrust\\": "src/Entrust/"
+            "LWJ\\Permission\\": "src/Entrust/"
         }
     },
     "extra":{
