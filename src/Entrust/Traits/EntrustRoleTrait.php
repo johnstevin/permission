@@ -20,7 +20,7 @@ trait EntrustRoleTrait
         $rolePrimaryKey = $this->primaryKey;
         $cacheKey = 'entrust_permissions_for_role_' . $this->$rolePrimaryKey;
         if (Cache::getStore() instanceof TaggableStore) {
-            return Cache::tags(Config::get('entrust.permission_role_table'))->remember($cacheKey, Config::get('cache.ttl', 60), function () {
+            return Cache::tags(Config::get('permission.permission_role_table'))->remember($cacheKey, Config::get('cache.ttl', 60), function () {
                 return $this->perms()->get();
             });
         } else return $this->perms()->get();
@@ -32,7 +32,7 @@ trait EntrustRoleTrait
             return false;
         }
         if (Cache::getStore() instanceof TaggableStore) {
-            Cache::tags(Config::get('entrust.permission_role_table'))->flush();
+            Cache::tags(Config::get('permission.permission_role_table'))->flush();
         }
         return true;
     }
@@ -43,7 +43,7 @@ trait EntrustRoleTrait
             return false;
         }
         if (Cache::getStore() instanceof TaggableStore) {
-            Cache::tags(Config::get('entrust.permission_role_table'))->flush();
+            Cache::tags(Config::get('permission.permission_role_table'))->flush();
         }
         return true;
     }
@@ -54,7 +54,7 @@ trait EntrustRoleTrait
             return false;
         }
         if (Cache::getStore() instanceof TaggableStore) {
-            Cache::tags(Config::get('entrust.permission_role_table'))->flush();
+            Cache::tags(Config::get('permission.permission_role_table'))->flush();
         }
         return true;
     }
@@ -66,7 +66,7 @@ trait EntrustRoleTrait
      */
     public function users()
     {
-        return $this->belongsToMany(Config::get('auth.providers.users.model'), Config::get('entrust.role_user_table'), Config::get('entrust.role_foreign_key'), Config::get('entrust.user_foreign_key'));
+        return $this->belongsToMany(Config::get('auth.providers.users.model'), Config::get('permission.role_user_table'), Config::get('permission.role_foreign_key'), Config::get('permission.user_foreign_key'));
     }
 
     /**
@@ -77,7 +77,7 @@ trait EntrustRoleTrait
      */
     public function perms()
     {
-        return $this->belongsToMany(Config::get('entrust.permission'), Config::get('entrust.permission_role_table'), Config::get('entrust.role_foreign_key'), Config::get('entrust.permission_foreign_key'));
+        return $this->belongsToMany(Config::get('permission.permission'), Config::get('permission.permission_role_table'), Config::get('permission.role_foreign_key'), Config::get('permission.permission_foreign_key'));
     }
 
     /**
@@ -92,7 +92,7 @@ trait EntrustRoleTrait
         parent::boot();
 
         static::deleting(function ($role) {
-            if (!method_exists(Config::get('entrust.role'), 'bootSoftDeletes')) {
+            if (!method_exists(Config::get('permission.role'), 'bootSoftDeletes')) {
                 $role->users()->sync([]);
                 $role->perms()->sync([]);
             }
@@ -153,7 +153,7 @@ trait EntrustRoleTrait
         }
 
         if (Cache::getStore() instanceof TaggableStore) {
-            Cache::tags(Config::get('entrust.permission_role_table'))->flush();
+            Cache::tags(Config::get('permission.permission_role_table'))->flush();
         }
     }
 
