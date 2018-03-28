@@ -28,11 +28,11 @@ class EntrustServiceProvider extends ServiceProvider
     {
         // Publish config files
         $this->publishes([
-            __DIR__.'/../config/config.php' => app()->basePath() . '/config/entrust.php',
+            __DIR__.'/../config/config.php' => app()->basePath() . '/config/permission.php',
         ]);
 
         // Register commands
-        $this->commands('command.entrust.migration');
+        $this->commands('command.permission.migration');
 
         // Register blade directives
         $this->bladeDirectives();
@@ -110,7 +110,7 @@ class EntrustServiceProvider extends ServiceProvider
      */
     private function registerCommands()
     {
-        $this->app->singleton('command.entrust.migration', function ($app) {
+        $this->app->singleton('command.permission.migration', function ($app) {
             return new MigrationCommand();
         });
     }
@@ -123,7 +123,7 @@ class EntrustServiceProvider extends ServiceProvider
     private function mergeConfig()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../config/config.php', 'entrust'
+            __DIR__.'/../config/config.php', 'permission'
         );
     }
 
@@ -135,7 +135,7 @@ class EntrustServiceProvider extends ServiceProvider
     public function provides()
     {
         return [
-            'command.entrust.migration'
+            'command.permission.migration'
         ];
     }
 }
