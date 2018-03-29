@@ -20,6 +20,9 @@ class PermissionSetupTables extends Migration
             $table->string('name')->unique();
             $table->string('display_name')->nullable();
             $table->string('description')->nullable();
+            $table->string('hierarchyId')->nullable();
+            $table->bigInteger('enabled')->default(0)->comment('0：禁用，1：启用');
+            $table->integer('version')->default(0);
             $table->timestamps();
         });
 
@@ -39,9 +42,14 @@ class PermissionSetupTables extends Migration
         // Create table for storing permissions
         Schema::create('{{ $permissionsTable }}', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->unique();
+            $table->string('name')->comment('资源名称');
+            $table->string('url')->comment('资源url');
+            $table->string('type')->comment('资源类型');
+            $table->integer('priority')->default(0)->comment('优先级');
             $table->string('display_name')->nullable();
             $table->string('description')->nullable();
+            $table->bigInteger('enabled')->default(0)->comment('0：禁用，1：启用');
+            $table->integer('version')->default(0);
             $table->timestamps();
         });
 
@@ -58,6 +66,56 @@ class PermissionSetupTables extends Migration
             $table->primary(['permission_id', 'role_id']);
         });
 
+        Schema::create('{{ $rolesGroupsTable }}', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->string('code');
+            $table->integer('parent_id')->default(0);
+            $table->integer('priority')->default(0)->comment('优先级');
+            $table->string('display_name')->nullable();
+            $table->string('description')->nullable();
+            $table->bigInteger('enabled')->default(0)->comment('0：禁用，1：启用');
+            $table->integer('version')->default(0);
+            $table->timestamps();
+        });
+
+        Schema::create('{{ $rolesGroupRoleTable }}', function (Blueprint $table) {
+            $table->integer('role_id')->unsigned();
+            $table->integer('roles_group_id')->unsigned();
+
+            $table->foreign('roles_group_id')->references('id')->on('{{ $rolesGroupsTable }}')
+                ->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('role_id')->references('id')->on('{{ $rolesTable }}')
+                ->onUpdate('cascade')->onDelete('cascade');
+
+            $table->primary(['roles_group_id', 'role_id']);
+        });
+
+        Schema::create('{{ $permissionsGroupsTable }}', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->string('code');
+            $table->integer('parent_id')->default(0);
+            $table->integer('priority')->default(0)->comment('优先级');
+            $table->string('display_name')->nullable();
+            $table->string('description')->nullable();
+            $table->bigInteger('enabled')->default(0)->comment('0：禁用，1：启用');
+            $table->integer('version')->default(0);
+            $table->timestamps();
+        });
+
+        Schema::create('{{ $permissionsGroupPermissionTable }}', function (Blueprint $table) {
+            $table->integer('permissions_group_id')->unsigned();
+            $table->integer('permission_id')->unsigned();
+
+            $table->foreign('permissions_group_id')->references('id')->on('{{ $permissionsGroupsTable }}')
+            ->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('permission_id')->references('id')->on('{{ $permissionsTable }}')
+            ->onUpdate('cascade')->onDelete('cascade');
+
+            $table->primary(['permission_id', 'permissions_group_id']);
+        });
+
         DB::commit();
     }
 
@@ -72,5 +130,9 @@ class PermissionSetupTables extends Migration
         Schema::drop('{{ $permissionsTable }}');
         Schema::drop('{{ $roleUserTable }}');
         Schema::drop('{{ $rolesTable }}');
+        Schema::drop('{{ $rolesGroupRoleTable }}');
+        Schema::drop('{{ $rolesGroupsTable }}');
+        Schema::drop('{{ $permissionsGroupsTable }}');
+        Schema::drop('{{ $permissionsGroupPermissionTable }}');
     }
 }
