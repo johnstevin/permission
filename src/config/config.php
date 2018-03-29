@@ -32,7 +32,7 @@ return [
 
     'permissions_groups_table'  => 'security_permissions_groups',
 
-    'permissions_group_foreign_key'  => 'permissions_group_id',
+    'permissions_group_foreign_key'  => 'perms_group_id',
 
     'permissions_group_permission_table'  => 'security_permissions_group_permission',
 
