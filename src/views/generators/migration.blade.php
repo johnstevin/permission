@@ -17,7 +17,7 @@ class PermissionSetupTables extends Migration
         // Create table for storing roles
         Schema::create('{{ $rolesTable }}', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->unique();
+            $table->string('name');
             $table->string('display_name')->nullable();
             $table->string('description')->nullable();
             $table->string('hierarchyId')->nullable();
@@ -105,15 +105,15 @@ class PermissionSetupTables extends Migration
         });
 
         Schema::create('{{ $permissionsGroupPermissionTable }}', function (Blueprint $table) {
-            $table->integer('perms_group_id')->unsigned();
+            $table->integer('permissions_group_id')->unsigned();
             $table->integer('permission_id')->unsigned();
 
-            $table->foreign('perms_group_id')->references('id')->on('{{ $permissionsGroupsTable }}')
-            ->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('permission_id')->references('id')->on('{{ $permissionsTable }}')
-            ->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('permissions_group_id','for_prmsgid')->references('id')->on('{{ $permissionsGroupsTable }}')
+                ->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('permission_id','for_prmid')->references('id')->on('{{ $permissionsTable }}')
+                ->onUpdate('cascade')->onDelete('cascade');
 
-            $table->primary(['permission_id', 'perms_group_id']);
+            $table->primary(['permission_id', 'permissions_group_id'],'pri_idx_prmid_prmsgid');
         });
 
         DB::commit();
