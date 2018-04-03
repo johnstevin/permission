@@ -141,7 +141,7 @@ trait EntrustUserTrait
      *
      * @return bool
      */
-    public function can($permission, $requireAll = false)
+    public function can($permission, $requireAll = false, $verifyField = 'name')
     {
         if (is_array($permission)) {
             foreach ($permission as $permName) {
@@ -162,7 +162,7 @@ trait EntrustUserTrait
             foreach ($this->cachedRoles() as $role) {
                 // Validate against the Permission table
                 foreach ($role->cachedPermissions() as $perm) {
-                    if (str_is( $permission, $perm->name) ) {
+                    if (str_is( $permission, $perm->$verifyField) ) {
                         return true;
                     }
                 }
