@@ -2,7 +2,7 @@
 
 return [
 
-    'role' => 'App\Role',
+    'role' => 'App\Models\RolesModel',
 
     'roles_table' => 'security_roles',
 
@@ -22,7 +22,7 @@ return [
 
     'user_foreign_key' => 'user_id',
 
-    'permission' => 'App\Permission',
+    'permission' => 'App\Models\PermissionModel',
 
     'permissions_table' => 'security_permissions',
 
