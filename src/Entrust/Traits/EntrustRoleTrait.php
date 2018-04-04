@@ -99,6 +99,13 @@ trait EntrustRoleTrait
 
             return true;
         });
+
+        self::creating(function ($model) {
+            if($model->{$model->primaryKey}===null ) {
+                $model->{$model->primaryKey} = \Ramsey\Uuid\Uuid::uuid1()->getHex();
+            }
+        });
+
     }
 
     /**
