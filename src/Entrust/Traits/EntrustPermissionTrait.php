@@ -59,5 +59,5 @@ trait EntrustPermissionTrait
         }
         return true;
     }
-    
+
 }
