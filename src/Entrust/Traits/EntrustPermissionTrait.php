@@ -48,4 +48,16 @@ trait EntrustPermissionTrait
         });
 
     }
+
+    public function delete(array $options = [])
+    {   //soft or hard
+        if (!parent::delete($options)) {
+            return false;
+        }
+        if (Cache::getStore() instanceof TaggableStore) {
+            Cache::tags(Config::get('permission.permission_role_table'))->flush();
+        }
+        return true;
+    }
+    
 }
